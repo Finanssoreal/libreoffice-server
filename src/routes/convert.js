@@ -31,6 +31,11 @@ uploadRoute.post("/", async (req, res) => {
         return
       }
 
+      if (!stdout) {
+        res.send("No response was received from the conversion process")
+        return
+      }
+
       res.writeHead(200, {
         "Content-Type": "application/pdf",
         "Content-Length": stdout.length,
