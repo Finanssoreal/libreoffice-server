@@ -23,8 +23,16 @@ uploadRoute.post("/", async (req, res) => {
 
   try {
     console.log('here')
-    const result = await execPromise(`unoconvert ${file.tempFilePath} out.pdf --convert-to pdf`)
+    exec(`unoconvert ${file.tempFilePath} - --convert-to pdf`, (error, stdout, stderr) => {
+      const err = error || stderr;
+
+      console.log(stdout, err)
+    });
+
+
+
     res.send("correcto todo!")
+
   } catch (error) {
     res.status(500, error.message)
   }
