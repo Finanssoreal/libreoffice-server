@@ -25,6 +25,9 @@ uploadRoute.post("/", async (req, res) => {
   try {
     exec(`unoconvert ${file.tempFilePath} - --convert-to pdf`, (error, stdout, stderr) => {
       const err = error || stderr;
+
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
       res.send(stdout)
     });
 
