@@ -5,7 +5,6 @@ import { execPromise } from "../utils/misc.js"
 const uploadRoute = express.Router()
 
 const MAX_BUFFER_SIZE = 15 * 1024 * 1024
-
 const FILE_UPLOAD_CFG = fileUpload({
   abortOnLimit: true,
   limits: { fileSize: MAX_BUFFER_SIZE },
@@ -35,7 +34,7 @@ uploadRoute.post("/", async (req, res) => {
     })
     res.end(Buffer.from(stdout, "binary"))
   } catch (error) {
-    res.status(500, error.message)
+    res.status(500, error)
   }
 })
 
