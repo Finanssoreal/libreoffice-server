@@ -21,6 +21,7 @@ uploadRoute.post("/", async (req, res) => {
 
   try {
     const result = await execPromise(`unoconvert ${file.tempFilePath} - --convert-to pdf`)
+    console.log(result)
     res.send("correcto todo!")
   } catch (error) {
     res.status(500, error.message)

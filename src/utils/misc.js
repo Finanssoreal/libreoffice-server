@@ -12,7 +12,7 @@ function execPromise(command) {
         return;
       }
 
-      resolve(stdout.trim());
+      resolve(stdout);
     });
   });
 }
