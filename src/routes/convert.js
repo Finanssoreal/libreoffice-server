@@ -1,6 +1,7 @@
 import express from "express"
 import fileUpload from "express-fileupload"
-import { execPromise } from "../utils/misc.js";
+
+import { exec } from "child_process"
 
 const uploadRoute = express.Router()
 
