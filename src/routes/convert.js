@@ -16,15 +16,14 @@ uploadRoute.post("/", async (req, res) => {
   const {file} = req.files || {};
 
   if(!file){
-    return res.status(422).send("No files were uploaded");
+    res.status(422).send("No files were uploaded");
   }
 
   try {
     const result = await execPromise(`unoconvert ${file.tempFilePath} - --convert-to pdf`)
-    return   res.send(result)
-
+    res.send("correcto todo!")
   } catch (error) {
-    return res.status(500, error.message)
+    res.status(500, error.message)
   }
 
 });
