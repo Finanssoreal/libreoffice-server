@@ -6,11 +6,11 @@ import { exec } from "child_process"
 const uploadRoute = express.Router()
 
 const FILE_UPLOAD_CFG = fileUpload({
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
-  useTempFiles : true,
+  abortOnLimit: true,
+  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB max
   preserveExtension: true,
   safeFileNames: true,
-  tempFileDir : '/tmp/'
+  useTempFiles : true,
 })
 
 uploadRoute.use(FILE_UPLOAD_CFG);
