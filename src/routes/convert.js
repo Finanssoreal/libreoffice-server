@@ -1,6 +1,6 @@
 import express from "express"
 import fileUpload from "express-fileupload"
-import { execPromise } from "../utils/misc.js"
+import { exec } from "child_process"
 
 const uploadRoute = express.Router()
 
@@ -22,20 +22,24 @@ uploadRoute.post("/", async (req, res) => {
     res.status(422).send("The file key is not present in the request")
   }
 
-  try {
-    const { stdout, stderr } = await execPromise(
-      `unoconvert ${file.tempFilePath} - --convert-to pdf`,
-      { encoding: "binary", maxBuffer: MAX_BUFFER_SIZE },
-    )
+  exec(
+    `unoconvert ${file.tempFilePath} - --convert-to pdf`,
+    { encoding: "binary", maxBuffer: MAX_BUFFER_SIZE },
+    (error, stdout, stderr) => {
+      const error = error || stderr
 
-    res.writeHead(200, {
-      "Content-Type": "application/pdf",
-      "Content-Length": stdout.length,
-    })
-    res.end(Buffer.from(stdout, "binary"))
-  } catch (error) {
-    res.status(500, error)
-  }
+      if (error) {
+        res.status(500).send(error)
+        return
+      }
+
+      res.writeHead(200, {
+        "Content-Type": "application/pdf",
+        "Content-Length": stdout.length,
+      })
+      res.end(Buffer.from(stdout, "binary"))
+    },
+  )
 })
 
 export default uploadRoute
