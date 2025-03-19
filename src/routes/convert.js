@@ -5,6 +5,8 @@ import { exec } from "child_process"
 const uploadRoute = express.Router()
 
 const MAX_BUFFER_SIZE = 15 * 1024 * 1024
+const MAX_PROCESS_TIMEOUT = 1000 * 15
+
 const FILE_UPLOAD_CFG = fileUpload({
   abortOnLimit: true,
   limits: { fileSize: MAX_BUFFER_SIZE },
@@ -24,7 +26,11 @@ uploadRoute.post("/", async (req, res) => {
 
   exec(
     `unoconvert ${file.tempFilePath} - --convert-to pdf`,
-    { encoding: "binary", maxBuffer: MAX_BUFFER_SIZE },
+    {
+      encoding: "binary",
+      maxBuffer: MAX_BUFFER_SIZE,
+      timeout: MAX_PROCESS_TIMEOUT,
+    },
     (error, stdout, stderr) => {
       if (error) {
         res.status(500).send(error)
