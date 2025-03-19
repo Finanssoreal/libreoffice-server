@@ -7,6 +7,8 @@ const uploadRoute = express.Router()
 const FILE_UPLOAD_CFG = fileUpload({
   limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
   useTempFiles : true,
+  preserveExtension: true,
+  safeFileNames: true,
   tempFileDir : '/tmp/'
 })
 
@@ -22,7 +24,6 @@ uploadRoute.post("/", async (req, res) => {
   try {
     console.log('here')
     const result = await execPromise(`unoconvert ${file.tempFilePath} - --convert-to pdf`)
-    console.log(result)
     res.send("correcto todo!")
   } catch (error) {
     res.status(500, error.message)
