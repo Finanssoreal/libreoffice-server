@@ -26,9 +26,9 @@ uploadRoute.post("/", async (req, res) => {
     `unoconvert ${file.tempFilePath} - --convert-to pdf`,
     { encoding: "binary", maxBuffer: MAX_BUFFER_SIZE },
     (error, stdout, stderr) => {
-      const error = error || stderr
+      const err = error || stderr
 
-      if (error) {
+      if (err) {
         res.status(500).send(error)
         return
       }
