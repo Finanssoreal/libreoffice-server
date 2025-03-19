@@ -19,21 +19,20 @@ uploadRoute.post("/", async (req, res) => {
   const {file} = req.files || {};
 
   if(!file){
-    res.status(422).send("No files were uploaded");
+    res.status(422).send("The file key is not present");
   }
 
   try {
-    exec(`unoconvert ${file.tempFilePath} - --convert-to pdf`, (error, stdout, stderr) => {
+    exec(`unoconvert ${file.tempFilePath} - --convert-to pdf`,{encoding: 'binary', maxBuffer: 10000*1024}, (error, stdout, stderr) => {
       const err = error || stderr;
 
       res.writeHead(200, {
         'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=file.pdf',
         'Content-Length': stdout.length
       });
-    res.end(Buffer.from(stdout, 'binary'));
-    });
 
+      res.end(Buffer.from(stdout, 'binary'));
+    });
   } catch (error) {
     res.status(500, error.message)
   }
