@@ -21,7 +21,7 @@ uploadRoute.post("/", async (req, res) => {
 
   const result = await execPromise("ls -la /tmp");
 
-  res.send(result)
+  res.send(file.tempFilePath)
 });
 
 export default uploadRoute;
