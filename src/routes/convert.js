@@ -1,6 +1,6 @@
 import express from "express"
 import fileUpload from "express-fileupload"
-import { execPromise } from "../utils/misc"
+import { execPromise } from "../utils/misc.js"
 
 const uploadRoute = express.Router()
 
