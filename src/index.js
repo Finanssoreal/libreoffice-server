@@ -16,6 +16,6 @@ app.use(express.json());
 app.use(limiter);
 
 // routes
-app.use('/upload', uploadRoute)
+app.use('/convert', uploadRoute)
 
-app.listen(APP_PORT, ()=>{});
+app.listen(APP_PORT, ()=> console.info(`Server running on port ${APP_PORT}`));

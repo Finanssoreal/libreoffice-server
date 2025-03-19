@@ -1,42 +1,42 @@
 import express from "express"
 import fileUpload from "express-fileupload"
-
-import { exec } from "child_process"
+import { execPromise } from "../utils/misc"
 
 const uploadRoute = express.Router()
 
+const MAX_BUFFER_SIZE = 15 * 1024 * 1024
+
 const FILE_UPLOAD_CFG = fileUpload({
   abortOnLimit: true,
-  limits: { fileSize: 15 * 1024 * 1024 }, // 15MB max
+  limits: { fileSize: MAX_BUFFER_SIZE },
   preserveExtension: true,
   safeFileNames: true,
-  useTempFiles : true,
+  useTempFiles: true,
 })
 
-uploadRoute.use(FILE_UPLOAD_CFG);
+uploadRoute.use(FILE_UPLOAD_CFG)
 
 uploadRoute.post("/", async (req, res) => {
-  const {file} = req.files || {};
+  const { file } = req.files || {}
 
-  if(!file){
-    res.status(422).send("The file key is not present");
+  if (!file) {
+    res.status(422).send("The file key is not present in the request")
   }
 
   try {
-    exec(`unoconvert ${file.tempFilePath} - --convert-to pdf`,{encoding: 'binary', maxBuffer: 10000*1024}, (error, stdout, stderr) => {
-      const err = error || stderr;
+    const { stdout, stderr } = await execPromise(
+      `unoconvert ${file.tempFilePath} - --convert-to pdf`,
+      { encoding: "binary", maxBuffer: MAX_BUFFER_SIZE },
+    )
 
-      res.writeHead(200, {
-        'Content-Type': 'application/pdf',
-        'Content-Length': stdout.length
-      });
-
-      res.end(Buffer.from(stdout, 'binary'));
-    });
+    res.writeHead(200, {
+      "Content-Type": "application/pdf",
+      "Content-Length": stdout.length,
+    })
+    res.end(Buffer.from(stdout, "binary"))
   } catch (error) {
     res.status(500, error.message)
   }
+})
 
-});
-
-export default uploadRoute;
+export default uploadRoute

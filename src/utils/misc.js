@@ -1,27 +1,12 @@
-import { exec } from "child_process";
-import { v4 } from 'uuid'
+import { exec } from "child_process"
+import { promisify } from "util"
 
-function execPromise(command) {
-  return new Promise(function(resolve, reject) {
-    exec(command, (error, stdout, stderr) => {
+const exec = promisify(exec)
 
-      const err = error || stderr;
+async function execPromise(command, opts) {
+  const { stdout, stderr } = await exec(command, opts)
 
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      resolve(stdout);
-    });
-  });
+  return { stdout, stderr }
 }
 
-function generateUUID() {
-  return v4()
-}
-
-export {
-  execPromise,
-  generateUUID,
-}
+export { execPromise }
