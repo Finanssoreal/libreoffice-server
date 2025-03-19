@@ -19,9 +19,14 @@ uploadRoute.post("/", async (req, res) => {
     return res.status(422).send("No files were uploaded");
   }
 
-  const result = await execPromise(`unoconvert ${file.tempFilePath} - --convert-to pdf`)
+  try {
+    const result = await execPromise(`unoconvert ${file.tempFilePath} - --convert-to pdf`)
+    return   res.send(result)
 
-  res.send(result)
+  } catch (error) {
+    return res.status(500, error.message)
+  }
+
 });
 
 export default uploadRoute;
