@@ -29,7 +29,7 @@ uploadRoute.post("/", async (req, res) => {
       const err = error || stderr
 
       if (err) {
-        res.status(500).send(error)
+        res.status(500).send(err)
         return
       }
 
