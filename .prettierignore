@@ -1,0 +1,5 @@
+flake.lock
+composer.json
+composer.lock
+pnpm-lock.yaml
+public/build/
