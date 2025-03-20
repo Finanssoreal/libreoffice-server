@@ -8,6 +8,7 @@ const MAX_BUFFER_SIZE = 15 * 1024 * 1024
 const MAX_PROCESS_TIMEOUT = 1000 * 15
 
 const FILE_UPLOAD_CFG = fileUpload({
+  tempFileDir: "/tmp/",
   abortOnLimit: true,
   limits: { fileSize: MAX_BUFFER_SIZE },
   preserveExtension: true,
