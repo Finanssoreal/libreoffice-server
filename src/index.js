@@ -1,6 +1,7 @@
 import express from "express"
 import rateLimit from "express-rate-limit"
 import uploadRoute from "./routes/convert.js"
+import checkToken from "./middleware/auth.js"
 
 const APP_PORT = 3000
 
@@ -14,6 +15,7 @@ const limiter = rateLimit({
 // middlewares
 app.use(express.json())
 app.use(limiter)
+app.use(checkToken)
 
 // routes
 app.use("/convert", uploadRoute)
