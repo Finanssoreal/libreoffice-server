@@ -1,17 +1,17 @@
 name: code-format-checks
 on:
-    pull_request:
-        branches:
-            - main
+  pull_request:
+    branches:
+      - main
 jobs:
-    formatting-checks:
-        runs-on: ubuntu-latest
-        container:
-            image: finanssoreal/node-prettier
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  formatting-checks:
+    runs-on: ubuntu-latest
+    container:
+      image: finanssoreal/node-prettier
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Check JS file formatting
-              if: always()
-              run: prettier . --check
+      - name: Check JS file formatting
+        if: always()
+        run: prettier . --check
