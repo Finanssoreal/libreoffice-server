@@ -1,13 +1,13 @@
-version: "3.8"
 services:
   libreoffice:
     image: finanssoreal/libreoffice-server:latest
     ports:
       - 3000:3000
-    env_file:
-      - .env
     environment:
       TOKEN_SECRET: "${TOKEN_SECRET}"
     networks:
       - libreoffice-server-network
-      driver: bridge
+
+networks:
+  libreoffice-server-network:
+
