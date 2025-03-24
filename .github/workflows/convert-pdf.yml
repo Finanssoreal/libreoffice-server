@@ -1,7 +1,7 @@
 name: dockerhub-push
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 jobs:
   docker-build-push:
     runs-on: ubuntu-latest
@@ -14,8 +14,8 @@ jobs:
         with:
           access_token: ${{ secrets.BW_ACCESS_TOKEN }}
           secrets: |
-                    1ad85b9c-d534-42e2-b043-b2a601358c41 > DOCKER_USERNAME
-                    bc2d7021-7cac-4080-a5ba-b2a60135a3e1 > DOCKER_PASSWORD
+            1ad85b9c-d534-42e2-b043-b2a601358c41 > DOCKER_USERNAME
+            bc2d7021-7cac-4080-a5ba-b2a60135a3e1 > DOCKER_PASSWORD
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
