@@ -1,0 +1,12 @@
+services:
+  libreoffice:
+    image: finanssoreal/libreoffice-server:latest
+    ports:
+      - 3000:3000
+    environment:
+      TOKEN_SECRET: "${TOKEN_SECRET}"
+    networks:
+      - libreoffice-server-network
+
+networks:
+  libreoffice-server-network:
